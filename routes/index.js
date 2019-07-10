@@ -10,7 +10,7 @@ router.get("/", function(req, res){
 
 //REGISTER FORM ROUTE
 router.get("/register", function(req, res){
-    res.render("register");
+    res.render("register", {page: "register"});
 });
 
 //SIGNUP LOGIC ROUTE
@@ -18,9 +18,15 @@ router.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
     //sign up
     User.register(newUser, req.body.password, function(err, user){
+        // if(err){
+        //     req.flash("error", err.message);
+        //     return res.redirect("/register");
+        // }
+
+        //since we are on the same page, we want to use render. So, we use the code below insted of redirect code
         if(err){
-            req.flash("error", err.message);
-            return res.redirect("/register");
+            console.log(err);
+            return res.render("register", {error: err.message});
         }
         //login
         passport.authenticate("local")(req, res, function(){
@@ -32,7 +38,7 @@ router.post("/register", function(req, res){
 
 //LOGIN ROUTE
 router.get("/login", function(req, res){
-    res.render("login");
+    res.render("login", {page: "login"});
 });
 
 //LOGIN LOGIC ROUTE
