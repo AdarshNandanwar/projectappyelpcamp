@@ -29,8 +29,9 @@ var campgroundRoutes = require("./routes/campgrounds"),
 //     console.log("ERROR: ", err.message);
 // });
 
-//combined db connect code using environment variables
-mongoose.connect(process.env.DATABASEURL, {
+//combined db connect code using environment variable
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp_v12";
+mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => {
